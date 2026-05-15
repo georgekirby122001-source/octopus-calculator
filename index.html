@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GPO Feeding Calculator | Octopus Care Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: #f4f6f8; color: #222; line-height: 1.5; }
+
+  /* Navy header matching your portfolio */
+  header { background: #1a3a5c; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+  header h1 { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
+  nav a { color: white; text-decoration: none; margin-left: 30px; font-size: 14px; letter-spacing: 1px; }
+
+  main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+
+  h2 { color: #1a3a5c; font-size: 22px; margin-bottom: 15px; }
+  p { margin-bottom: 15px; }
+
+  .calc-box { background: white; padding: 30px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  label { display: block; margin: 20px 0 10px; font-weight: bold; color: #1a3a5c; }
+  input { padding: 12px; font-size: 16px; width: 180px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+  button { background: #1a3a5c; color: white; padding: 12px 24px; border: none; font-size: 16px; cursor: pointer; margin-left: 10px; border-radius: 4px; font-family: inherit; }
+  button:hover { background: #2d567a; }
+
+  /* Recommendation callout matching portfolio cream */
+  .recommendation { background: #fdf6e3; padding: 20px; margin-top: 30px; border-left: 4px solid #1a3a5c; }
+  .recommendation h3 { color: #1a3a5c; margin-bottom: 15px; font-size: 18px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+  th { background: #1a3a5c; color: white; padding: 12px; text-align: left; font-size: 14px; letter-spacing: 0.5px; }
+  td { padding: 12px; border-bottom: 1px solid #e5e5e5; }
+  tr:nth-child(even) td { background: #f9fafb; }
+  td:last-child { text-align: right; font-weight: bold; color: #1a3a5c; }
+
+  .note { font-size: 13px; color: #666; margin-top: 25px; padding: 15px; background: #f9fafb; border-left: 3px solid #ccc; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>OCTOPUS CARE GUIDE</h1>
+  <nav>
+    <a href="#">ENCLOSURE DESIGN</a>
+    <a href="#">NUTRITION</a>
+    <a href="#">HEALTH</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Feeding Calculator</h2>
+  <p>Enter the octopus's body weight to calculate daily and weekly feed requirements automatically, based on the recommended diet composition. Use this tool alongside monthly body-weight recording to adjust feeding amounts as the animal grows.</p>
+
+  <div class="calc-box">
+    <label for="weight">Octopus body weight (kg):</label>
+    <input type="number" id="weight" min="0" step="0.1" placeholder="e.g. 20">
+    <button onclick="calculate()">Calculate</button>
+
+    <div id="result" class="hidden">
+      <div class="recommendation">
+        <h3>Weekly Feeding Requirements</h3>
+        <table>
+          <thead>
+            <tr><th>Measurement</th><th>Amount</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Daily energy required</td><td id="dailyKcal"></td></tr>
+            <tr><td>Weekly energy required</td><td id="weeklyKcal"></td></tr>
+            <tr><td>Total daily feed</td><td id="dailyFeed"></td></tr>
+            <tr><td>Total weekly feed</td><td id="weeklyFeed"></td></tr>
+            <tr><td>Crab per week (70%)</td><td id="crab"></td></tr>
+            <tr><td>Bivalve per week (20%)</td><td id="bivalve"></td></tr>
+            <tr><td>White fish per week (10%)</td><td id="fish"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Note:</strong> Calculations use the energy requirement of 12.69 kcal/kg/day, extrapolated from <em>Octopus rubescens</em> research (Onthank, 2008; AZA interpretation). Feed energy density is approximately 0.968 kcal/g for the recommended 70% crab / 20% bivalve / 10% white fish composition. Captive metabolic demand may differ from wild estimates; adjust feeding based on body condition, feeding response, and welfare scoring. Divide weekly amounts across 3–4 feeds per week.
+    </div>
+  </div>
+</main>
+
+<script>
+function calculate() {
+  const w = parseFloat(document.getElementById('weight').value);
+  if (!w || w <= 0) {
+    alert('Please enter a valid weight greater than 0.');
+    return;
+  }
+
+  const dailyKcal = w * 12.69;
+  const weeklyKcal = dailyKcal * 7;
+  const dailyFeed = dailyKcal / 0.968;
+  const weeklyFeed = weeklyKcal / 0.968;
+  const crab = weeklyFeed * 0.70;
+  const bivalve = weeklyFeed * 0.20;
+  const fish = weeklyFeed * 0.10;
+
+  document.getElementById('dailyKcal').textContent = dailyKcal.toFixed(1) + ' kcal';
+  document.getElementById('weeklyKcal').textContent = weeklyKcal.toFixed(1) + ' kcal';
+  document.getElementById('dailyFeed').textContent = dailyFeed.toFixed(1) + ' g';
+  document.getElementById('weeklyFeed').textContent = weeklyFeed.toFixed(1) + ' g';
+  document.getElementById('crab').textContent = crab.toFixed(1) + ' g';
+  document.getElementById('bivalve').textContent = bivalve.toFixed(1) + ' g';
+  document.getElementById('fish').textContent = fish.toFixed(1) + ' g';
+
+  document.getElementById('result').classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
