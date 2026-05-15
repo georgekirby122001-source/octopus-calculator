@@ -2,71 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>GPO Feeding Calculator | Octopus Care Guide</title>
+<title>Octopus Feed Calculator</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, 'Times New Roman', serif; background: #f4f6f8; color: #222; line-height: 1.5; }
+  body { font-family: Arial, sans-serif; background: #f0f0f0; color: #333; }
 
-  /* Navy header matching your portfolio */
-  header { background: #1a3a5c; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
-  header h1 { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
-  nav a { color: white; text-decoration: none; margin-left: 30px; font-size: 14px; letter-spacing: 1px; }
+  header { background: #333; color: white; padding: 20px; text-align: center; }
+  header h1 { font-size: 28px; }
 
-  main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+  main { max-width: 600px; margin: 30px auto; padding: 20px; }
 
-  h2 { color: #1a3a5c; font-size: 22px; margin-bottom: 15px; }
-  p { margin-bottom: 15px; }
+  .calc-box { background: white; padding: 20px; border-radius: 8px; }
+  
+  label { display: block; margin: 15px 0 5px; font-weight: bold; }
+  input { padding: 10px; font-size: 16px; width: 200px; border: 1px solid #ccc; border-radius: 4px; }
+  button { background: #333; color: white; padding: 10px 20px; border: none; font-size: 16px; cursor: pointer; margin-left: 10px; border-radius: 4px; }
+  button:hover { background: #555; }
 
-  .calc-box { background: white; padding: 30px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-  label { display: block; margin: 20px 0 10px; font-weight: bold; color: #1a3a5c; }
-  input { padding: 12px; font-size: 16px; width: 180px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
-  button { background: #1a3a5c; color: white; padding: 12px 24px; border: none; font-size: 16px; cursor: pointer; margin-left: 10px; border-radius: 4px; font-family: inherit; }
-  button:hover { background: #2d567a; }
+  .results { background: white; padding: 20px; margin-top: 20px; border-radius: 8px; }
+  .results h3 { margin-bottom: 15px; }
 
-  /* Recommendation callout matching portfolio cream */
-  .recommendation { background: #fdf6e3; padding: 20px; margin-top: 30px; border-left: 4px solid #1a3a5c; }
-  .recommendation h3 { color: #1a3a5c; margin-bottom: 15px; font-size: 18px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 10px; border-bottom: 1px solid #ddd; }
+  td:last-child { text-align: right; font-weight: bold; }
 
-  table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-  th { background: #1a3a5c; color: white; padding: 12px; text-align: left; font-size: 14px; letter-spacing: 0.5px; }
-  td { padding: 12px; border-bottom: 1px solid #e5e5e5; }
-  tr:nth-child(even) td { background: #f9fafb; }
-  td:last-child { text-align: right; font-weight: bold; color: #1a3a5c; }
-
-  .note { font-size: 13px; color: #666; margin-top: 25px; padding: 15px; background: #f9fafb; border-left: 3px solid #ccc; }
   .hidden { display: none; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>OCTOPUS FEED CALCULATOR</h1>
+  <h1>Octopus Feed Calculator</h1>
 </header>
 
 <main>
-  <h2>Feeding Calculator</h2>
-  <p>Enter Octopuses Weight below</p>
-
   <div class="calc-box">
-    <label for="weight">Octopus body weight (kg):</label>
-    <input type="number" id="weight" min="0" step="0.1" placeholder="e.g. 20">
+    <label for="weight">Octopus weight (kg):</label>
+    <input type="number" id="weight" min="0" step="0.1" placeholder="Enter weight">
     <button onclick="calculate()">Calculate</button>
 
-    <div id="result" class="hidden">
-      <div class="recommendation">
-        <h3>Weekly Feeding Requirements</h3>
-        <table>
-          <tbody>
-            <tr><td>Daily energy required</td><td id="dailyKcal"></td></tr>
-            <tr><td>Weekly energy required</td><td id="weeklyKcal"></td></tr>
-            <tr><td>Total daily feed</td><td id="dailyFeed"></td></tr>
-            <tr><td>Total weekly feed</td><td id="weeklyFeed"></td></tr>
-            <tr><td>Crab per week (70%)</td><td id="crab"></td></tr>
-            <tr><td>Bivalve per week (20%)</td><td id="bivalve"></td></tr>
-            <tr><td>White fish per week (10%)</td><td id="fish"></td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div id="result" class="hidden results">
+      <h3>Weekly Feeding Requirements</h3>
+      <table>
+        <tr><td>Daily energy required</td><td id="dailyKcal"></td></tr>
+        <tr><td>Weekly energy required</td><td id="weeklyKcal"></td></tr>
+        <tr><td>Total daily feed</td><td id="dailyFeed"></td></tr>
+        <tr><td>Total weekly feed</td><td id="weeklyFeed"></td></tr>
+        <tr><td>Crab per week (70%)</td><td id="crab"></td></tr>
+        <tr><td>Bivalve per week (20%)</td><td id="bivalve"></td></tr>
+        <tr><td>White fish per week (10%)</td><td id="fish"></td></tr>
+      </table>
     </div>
   </div>
 </main>
@@ -75,7 +60,7 @@
 function calculate() {
   const w = parseFloat(document.getElementById('weight').value);
   if (!w || w <= 0) {
-    alert('Please enter a valid weight greater than 0.');
+    alert('Please enter a valid weight.');
     return;
   }
 
